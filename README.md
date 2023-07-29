@@ -17,7 +17,7 @@ Overall, the philosophy of "Flixio" represents a modern, flexible, and innovativ
 ## Collection Postman & Database
 
 - Collection Postman [[here](https://documenter.getpostman.com/view/20144301/UVsSN3i8)]
-- Database [[here](https://github.com/FazztrackWebClass/BeginerBackend/blob/main/tickitz.sql)]
+- Database [[here](https://github.com/luthfidiqi/Flixio-Backend/blob/main/flixio.sql)]
 
 ## References
 
