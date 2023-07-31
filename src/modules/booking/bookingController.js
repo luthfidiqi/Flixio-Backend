@@ -45,4 +45,29 @@ module.exports = {
       return helperWrapper.res(res, 400, "Bad Request", null);
     }
   },
+  getSeatBooking: async (req, res) => {
+    try {
+      const { scheduleId, dateBooking, timeBooking } = req.body;
+
+      console.log(scheduleId);
+
+      const result = await bookingModel.getSeatBooking(
+        scheduleId,
+        dateBooking,
+        timeBooking
+      );
+
+      const newResult = result.map((item) => item.seat);
+
+      return helperWrapper.res(
+        res,
+        200,
+        `Success get data booking seat!`,
+        newResult
+      );
+    } catch (error) {
+      console.log(error);
+      return helperWrapper.res(res, 400, "Bad Request", null);
+    }
+  },
 };
