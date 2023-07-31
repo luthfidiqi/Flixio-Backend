@@ -41,15 +41,12 @@ module.exports = {
 
       return helperWrapper.res(res, 200, "Success create data!", bookingSeat);
     } catch (error) {
-      console.log(error);
       return helperWrapper.res(res, 400, "Bad Request", null);
     }
   },
   getBookingByBookingId: async (req, res) => {
     try {
       const { id } = req.params;
-
-      // console.log(id);
 
       const result = await bookingModel.getBookingByBookingId(id);
 
@@ -83,15 +80,12 @@ module.exports = {
         newResult
       );
     } catch (error) {
-      console.log(error);
       return helperWrapper.res(res, 400, "Bad Request", null);
     }
   },
   getSeatBooking: async (req, res) => {
     try {
       const { scheduleId, dateBooking, timeBooking } = req.body;
-
-      console.log(scheduleId);
 
       const result = await bookingModel.getSeatBooking(
         scheduleId,
@@ -106,6 +100,26 @@ module.exports = {
         200,
         `Success get data booking seat!`,
         newResult
+      );
+    } catch (error) {
+      return helperWrapper.res(res, 400, "Bad Request", null);
+    }
+  },
+  getDashboardBooking: async (req, res) => {
+    try {
+      let { premiere, movieId, location } = req.body;
+
+      const result = await bookingModel.getDashboardBooking(
+        premiere,
+        movieId,
+        location
+      );
+
+      return helperWrapper.res(
+        res,
+        200,
+        `Success get data booking seat!`,
+        result
       );
     } catch (error) {
       console.log(error);

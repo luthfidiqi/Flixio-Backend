@@ -18,7 +18,6 @@ module.exports = {
           }
         }
       );
-      //   console.log(connection);
     }),
   createBookingSeat: (dataSeat) =>
     new Promise((resolve, reject) => {
@@ -37,7 +36,6 @@ module.exports = {
           }
         }
       );
-      //   console.log(connection);
     }),
   getBookingByBookingId: (id) =>
     new Promise((resolve, reject) => {
@@ -74,6 +72,24 @@ module.exports = {
         FROM bookingSeat AS bs 
         JOIN booking AS b ON bs.bookingId = b.id 
         WHERE b.scheduleId = '${scheduleId}' OR b.dateBooking = '${dateBooking}' OR b.timeBooking = '${timeBooking}';`,
+        (error, result) => {
+          if (!error) {
+            resolve(result);
+          } else {
+            reject(new Error(error.sqlMessage));
+          }
+        }
+      );
+    }),
+  getDashboardBooking: (premiere, movieId, location) =>
+    new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT MONTH(b.createdAt) AS month, SUM(b.totalPayment) AS total
+        FROM booking AS b
+        JOIN schedule AS s 
+        ON b.scheduleId = s.id
+        WHERE s.premiere LIKE '%${premiere}%' OR s.movieId = ${movieId} OR s.location LIKE '%${location}%'
+        GROUP BY MONTH(b.createdAt);`,
         (error, result) => {
           if (!error) {
             resolve(result);
