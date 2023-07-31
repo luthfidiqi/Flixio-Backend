@@ -31,8 +31,7 @@ module.exports = {
           bookingId: result.id,
           seat: seatNumber,
         };
-        await setDataSeat;
-        return bookingModel.createBookingSeat(setDataSeat);
+        await bookingModel.createBookingSeat(setDataSeat);
       });
 
       const bookingSeat = {
