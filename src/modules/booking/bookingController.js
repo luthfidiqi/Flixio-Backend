@@ -126,4 +126,21 @@ module.exports = {
       return helperWrapper.res(res, 400, "Bad Request", null);
     }
   },
+  updateStatusBooking: async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const setData = {
+        statusUsed: "notActive",
+        updatedAt: new Date(Date.now()),
+      };
+
+      const result = await bookingModel.updateStatusBooking(id, setData);
+
+      return helperWrapper.res(res, 200, "Success update data!", result);
+    } catch (error) {
+      console.log(error);
+      return helperWrapper.res(res, 400, "Bad Request", null);
+    }
+  },
 };

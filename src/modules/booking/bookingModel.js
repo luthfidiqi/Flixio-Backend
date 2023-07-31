@@ -100,4 +100,22 @@ module.exports = {
       );
       //   console.log(connection);
     }),
+  updateStatusBooking: (id, data) =>
+    new Promise((resolve, reject) => {
+      connection.query(
+        "UPDATE booking SET ? WHERE id = ?",
+        [data, id],
+        (error) => {
+          if (!error) {
+            const newResult = {
+              id,
+              ...data,
+            };
+            resolve(newResult);
+          } else {
+            reject(new Error(error.sqlMessage));
+          }
+        }
+      );
+    }),
 };
