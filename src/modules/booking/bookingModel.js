@@ -39,6 +39,34 @@ module.exports = {
       );
       //   console.log(connection);
     }),
+  getBookingByBookingId: (id) =>
+    new Promise((resolve, reject) => {
+      connection.query(
+        "SELECT * FROM booking AS b JOIN schedule AS s ON b.scheduleId = s.id JOIN movie AS m ON s.movieId = m.id WHERE b.id = ?",
+        id,
+        (error, result) => {
+          if (!error) {
+            resolve(result);
+          } else {
+            reject(new Error(error.sqlMessage));
+          }
+        }
+      );
+    }),
+  getBookingByBookingIdSeat: (id) =>
+    new Promise((resolve, reject) => {
+      connection.query(
+        "SELECT seat FROM bookingSeat WHERE bookingId = ?",
+        id,
+        (error, result) => {
+          if (!error) {
+            resolve(result);
+          } else {
+            reject(new Error(error.sqlMessage));
+          }
+        }
+      );
+    }),
   getSeatBooking: (scheduleId, dateBooking, timeBooking) =>
     new Promise((resolve, reject) => {
       connection.query(
