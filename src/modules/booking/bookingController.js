@@ -26,15 +26,14 @@ module.exports = {
 
       const result = await bookingModel.createBooking(setData);
 
-      const seatPromises = seat.map((seatNumber) => {
+      seat.map(async (seatNumber) => {
         setDataSeat = {
           bookingId: result.id,
           seat: seatNumber,
         };
+        await setDataSeat;
         return bookingModel.createBookingSeat(setDataSeat);
       });
-
-      await Promise.all(seatPromises); // Wait for all seat creations to complete
 
       const bookingSeat = {
         ...result,
