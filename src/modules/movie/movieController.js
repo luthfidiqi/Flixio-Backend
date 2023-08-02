@@ -48,7 +48,6 @@ module.exports = {
       );
       return helperWrapper.res(res, 200, "Success get data!", result, pageInfo);
     } catch (error) {
-      console.log(error);
       return helperWrapper.res(res, 400, "Bad Request", null);
     }
   },
@@ -89,13 +88,10 @@ module.exports = {
         synopsis,
       };
 
-      console.log(setData);
-
       const result = await movieModel.createMovie(setData);
 
       return helperWrapper.res(res, 200, "Success create data!", result);
     } catch (error) {
-      console.log(error);
       return helperWrapper.res(res, 400, "Bad Request", null);
     }
   },
@@ -142,7 +138,6 @@ module.exports = {
 
       return helperWrapper.res(res, 200, "Success update data !", result);
     } catch (error) {
-      console.log(error);
       return helperWrapper.res(res, 400, "Bad Request", null);
     }
   },
@@ -159,7 +154,6 @@ module.exports = {
 
       return helperWrapper.res(res, 200, "Success delete data!", result);
     } catch (error) {
-      console.log(error);
       return helperWrapper.res(res, 400, "Bad Request", null);
     }
   },
