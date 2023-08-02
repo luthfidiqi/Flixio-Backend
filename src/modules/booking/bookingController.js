@@ -85,7 +85,7 @@ module.exports = {
   },
   getSeatBooking: async (req, res) => {
     try {
-      const { scheduleId, dateBooking, timeBooking } = req.body;
+      const { scheduleId, dateBooking, timeBooking } = req.query;
 
       const result = await bookingModel.getSeatBooking(
         scheduleId,
@@ -107,7 +107,7 @@ module.exports = {
   },
   getDashboardBooking: async (req, res) => {
     try {
-      let { premiere, movieId, location } = req.body;
+      let { premiere, movieId, location } = req.query;
 
       const result = await bookingModel.getDashboardBooking(
         premiere,
