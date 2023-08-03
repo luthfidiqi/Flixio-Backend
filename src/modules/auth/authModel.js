@@ -16,4 +16,18 @@ module.exports = {
         }
       });
     }),
+  getUserByemail: (email) =>
+    new Promise((resolve, reject) => {
+      connection.query(
+        "SELECT * FROM user WHERE email = ?",
+        email,
+        (error, result) => {
+          if (!error) {
+            resolve(result);
+          } else {
+            reject(new Error(error.sqlMessage));
+          }
+        }
+      );
+    }),
 };
