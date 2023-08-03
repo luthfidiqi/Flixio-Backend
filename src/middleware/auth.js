@@ -19,7 +19,9 @@ module.exports = {
       if (error) {
         return helperWrapper.res(res, 403, error.message, null);
       }
-      console.log(result);
+      req.decodeToken = result;
+      next();
     });
   },
+  isAdmin: (req, res, next) => {},
 };

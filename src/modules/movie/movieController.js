@@ -81,6 +81,7 @@ module.exports = {
       const setData = {
         name,
         category,
+        image: "",
         releaseDate,
         cast,
         director,
@@ -92,6 +93,7 @@ module.exports = {
 
       return helperWrapper.res(res, 200, "Success create data!", result);
     } catch (error) {
+      console.log(error);
       return helperWrapper.res(res, 400, "Bad Request", null);
     }
   },
