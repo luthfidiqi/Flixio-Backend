@@ -44,6 +44,8 @@ module.exports = {
       // JWT Process
       const payload = checkUser[0];
       delete payload.password;
+      delete payload.createdAt;
+      delete payload.updatedAt;
 
       const token = jwt.sign({ ...payload }, "SECRET", { expiresIn: "24h" });
 
