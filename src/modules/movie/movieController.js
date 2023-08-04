@@ -2,14 +2,6 @@ const helperWrapper = require("../../helpers/wrapper");
 const movieModel = require("./movieModel");
 const cloudinary = require("../../config/cloudinary");
 
-/* 
-Note :
-1. Buat CRUD untuk schedule
-2. Buat fitur search & sort get all 
-    - Masukanrequest untuk searchName dan sort
-    - cari query sql untuk search by name dan sort 
-*/
-
 module.exports = {
   getAllMovie: async (req, res) => {
     try {
@@ -114,6 +106,13 @@ module.exports = {
       if (checkId.length <= 0) {
         return helperWrapper.res(res, 404, `Data by id ${id} not found`, null);
       }
+
+      //   Delete Cloudinary
+      let imageLink = checkId[0].image;
+      const filename = imageLink.split(".");
+      cloudinary.uploader.destroy(filename[0], function (result) {
+        console.log(result);
+      });
 
       const {
         name,
