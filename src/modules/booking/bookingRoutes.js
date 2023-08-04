@@ -8,7 +8,7 @@ Router.post(
   middlewareAuth.authentication,
   bookingController.createBooking
 );
-// Router.get("/user/:id", bookingController.getBookingByUserId);
+Router.get("/user/:id", bookingController.getBookingByUserId);
 Router.get(
   "/id/:id",
   middlewareAuth.authentication,

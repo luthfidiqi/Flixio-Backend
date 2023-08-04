@@ -14,6 +14,7 @@ module.exports = {
       } = req.body;
 
       const setData = {
+        userId: req.decodeToken.id,
         scheduleId,
         dateBooking,
         timeBooking,
@@ -41,6 +42,48 @@ module.exports = {
 
       return helperWrapper.res(res, 200, "Success create data!", bookingSeat);
     } catch (error) {
+      return helperWrapper.res(res, 400, "Bad Request", null);
+    }
+  },
+  getBookingByUserId: async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const result = await bookingModel.getBookingByUserId(id);
+
+      const resultSeat = await bookingModel.getBookingByBookingIdSeat(id);
+
+      const newResultSeat = resultSeat.map((item) => item.seat);
+
+      const dataResult = result[0];
+
+      const newResult = {
+        id: dataResult.id,
+        firstName: dataResult.firstName,
+        lastName: dataResult.lastName,
+        scheduleId: dataResult.scheduleId,
+        dateBooking: dataResult.dateBooking,
+        timeBooking: dataResult.timeBooking,
+        totalTicket: dataResult.totalTicket,
+        totalPayment: dataResult.totalPayment,
+        paymentMethod: dataResult.paymentMethod,
+        statusPayment: dataResult.statusPayment,
+        statusUsed: dataResult.statusUsed,
+        seat: newResultSeat,
+        createdAt: dataResult.createdAt,
+        updatedAt: dataResult.updatedAt,
+        name: dataResult.name,
+        category: dataResult.category,
+      };
+
+      return helperWrapper.res(
+        res,
+        200,
+        `Success get data booking seat!`,
+        newResult
+      );
+    } catch (error) {
+      console.log(error);
       return helperWrapper.res(res, 400, "Bad Request", null);
     }
   },
