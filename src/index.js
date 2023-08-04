@@ -15,6 +15,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
+app.options("*", cors());
 app.use(helmet());
 app.use(xss());
 app.use(compression());

@@ -81,7 +81,7 @@ module.exports = {
       const setData = {
         name,
         category,
-        image: "",
+        image: req.file ? req.file.filename : "",
         releaseDate,
         cast,
         director,
@@ -119,6 +119,7 @@ module.exports = {
       const setData = {
         name,
         category,
+        image: req.file ? req.file.filename : "",
         releaseDate,
         cast,
         director,

@@ -8,7 +8,7 @@ Router.get("/", movieController.getAllMovie);
 Router.get("/:id", movieController.getMovieById);
 Router.post(
   "/",
-  //   middlewareAuth.authentication,
+  middlewareAuth.authentication,
   middlewareUpload,
   movieController.createMovie
 );
