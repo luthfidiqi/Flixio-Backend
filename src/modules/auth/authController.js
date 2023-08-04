@@ -2,6 +2,7 @@ const helperWrapper = require("../../helpers/wrapper");
 const authModel = require("./authModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { sendMail } = require("../../helpers/mail");
 
 module.exports = {
   register: async (req, res) => {
@@ -31,6 +32,16 @@ module.exports = {
       };
 
       const result = await authModel.register(setData);
+
+      // Config send email
+      const setSendEmail = {
+        to: email,
+        subject: "Email Verification !",
+        name: firstName + " " + lastName,
+        template: "verificationEmail.html",
+        buttonUrl: `localhost:3000/auth/activateAccount/${result.id}`,
+      };
+      await sendMail(setSendEmail);
 
       return helperWrapper.res(res, 200, "Success register user!", result);
     } catch (error) {
@@ -67,6 +78,34 @@ module.exports = {
         id: payload.id,
         token,
       });
+    } catch (error) {
+      console.log(error);
+      return helperWrapper.res(res, 400, "Bad Request", null);
+    }
+  },
+  updateStatusAccount: async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const checkUser = await authModel.getUserById(id);
+
+      if (checkUser.length < 1) {
+        return helperWrapper.res(res, 404, "User not Found", null);
+      }
+
+      const setData = {
+        status: "active",
+        updatedAt: new Date(Date.now()),
+      };
+
+      for (const data in setData) {
+        if (!setData[data]) {
+          delete setData[data];
+        }
+      }
+
+      const result = await authModel.updateStatusAccount(id, setData);
+      return helperWrapper.res(res, 200, "account activated", result);
     } catch (error) {
       console.log(error);
       return helperWrapper.res(res, 400, "Bad Request", null);
