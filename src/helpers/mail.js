@@ -3,15 +3,9 @@ const { google } = require("googleapis");
 const fs = require("fs");
 const mustache = require("mustache");
 
-const clientId =
-  "483277467523-bvu8n7fjvq470fs95f9pb7dne6hlodjs.apps.googleusercontent.com";
-const clientSecret = "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";
-const refreshToken =
-  "1//04j8OIfX7ZCepCgYIARAAGAQSNwF-L9Ir9yJsX9IIlTJ-P7gsEWshB9d58zqS8-csmz8odtyenMxMeMV2JX3HsHng3g5Hhzajo60";
-
-// const clientId = process.env.MAIL_CLIENT_ID;
-// const clientSecret = process.env.MAIL_CLIENT_SECRET;
-// const refreshToken = process.env.MAIL_REFRESH_TOKEN;
+const clientId = process.env.MAIL_CLIENT_ID;
+const clientSecret = process.env.MAIL_CLIENT_SECRET;
+const refreshToken = process.env.MAIL_REFRESH_TOKEN;
 
 const { OAuth2 } = google.auth;
 const OAuth2Client = new OAuth2(clientId, clientSecret);

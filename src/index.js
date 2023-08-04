@@ -8,7 +8,7 @@ const bodyParser = require("body-parser");
 
 const routerNav = require("./routes");
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 // MiddleWare
 app.use(morgan("dev"));
