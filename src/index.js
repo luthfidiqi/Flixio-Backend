@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const xss = require("xss-clean");
 const compression = require("compression");
 const bodyParser = require("body-parser");
+require("dotenv").config();
 
 const routerNav = require("./routes");
 const app = express();
