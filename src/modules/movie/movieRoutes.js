@@ -9,15 +9,23 @@ Router.get("/:id", movieController.getMovieById);
 Router.post(
   "/",
   middlewareAuth.authentication,
+  middlewareAuth.isAdmin,
   middlewareUpload,
   movieController.createMovie
 );
 Router.patch(
   "/:id",
   middlewareAuth.authentication,
+  middlewareAuth.isAdmin,
   middlewareUpload,
   movieController.updateMovie
 );
-Router.delete("/:id", movieController.deleteMovie);
+Router.delete(
+  "/:id",
+  middlewareAuth.authentication,
+  middlewareAuth.isAdmin,
+  middlewareUpload,
+  movieController.deleteMovie
+);
 
 module.exports = Router;

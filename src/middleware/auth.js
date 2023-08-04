@@ -23,5 +23,24 @@ module.exports = {
       next();
     });
   },
-  isAdmin: (req, res, next) => {},
+  isAdmin: (req, res, next) => {
+    console.log(req.decodeToken);
+    try {
+      console.log(req.decodeToken.role);
+      if (req.decodeToken.role !== "admin") {
+        return helperWrapper.res(
+          res,
+          403,
+          "Only admin can use this feature",
+          null
+        );
+      }
+      console.log(req.decodeToken.role);
+      return next();
+    } catch (error) {
+      if (error) {
+        return helperWrapper.res(res, 404, "Bad request", null);
+      }
+    }
+  },
 };

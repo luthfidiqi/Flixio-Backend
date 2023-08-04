@@ -1,5 +1,6 @@
 const helperWrapper = require("../../helpers/wrapper");
 const movieModel = require("./movieModel");
+const cloudinary = require("../../config/cloudinary");
 
 /* 
 Note :
@@ -78,10 +79,17 @@ module.exports = {
         synopsis,
       } = req.body;
 
+      // For cloudinary only
+      // Get extension from mimetype
+      const mimetypeParts = req.file.mimetype.split("/");
+      const fileExtension = mimetypeParts[1];
+      // Combine filename with fileExtension
+      const newFilename = `${req.file.filename}.${fileExtension}`;
+
       const setData = {
         name,
         category,
-        image: req.file ? req.file.filename : "",
+        image: newFilename,
         releaseDate,
         cast,
         director,
@@ -99,6 +107,7 @@ module.exports = {
   },
   updateMovie: async (req, res) => {
     try {
+      console.log(req.file);
       const { id } = req.params;
       const checkId = await movieModel.getMovieById(id);
 
@@ -116,10 +125,17 @@ module.exports = {
         synopsis,
       } = req.body;
 
+      // For cloudinary only
+      // Get extension from mimetype
+      const mimetypeParts = req.file.mimetype.split("/");
+      const fileExtension = mimetypeParts[1];
+      // Combine filename with fileExtension
+      const newFilename = `${req.file.filename}.${fileExtension}`;
+
       const setData = {
         name,
         category,
-        image: req.file ? req.file.filename : "",
+        image: newFilename,
         releaseDate,
         cast,
         director,
@@ -153,10 +169,20 @@ module.exports = {
         return helperWrapper.res(res, 404, `Data by id ${id} not found`, null);
       }
 
+      const resultId = await movieModel.getMovieById(id);
+
+      let imageLink = resultId[0].image;
+      const filename = imageLink.split(".");
+
+      cloudinary.uploader.destroy(filename[0], function (result) {
+        console.log(result);
+      });
+
       const result = await movieModel.deleteMovie(id);
 
       return helperWrapper.res(res, 200, "Success delete data!", result);
     } catch (error) {
+      console.log(error);
       return helperWrapper.res(res, 400, "Bad Request", null);
     }
   },

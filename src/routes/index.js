@@ -2,6 +2,8 @@ const express = require("express");
 
 const Router = express.Router();
 
+const middlewareAuth = require("../middleware/auth");
+
 const movieRoutes = require("../modules/movie/movieRoutes");
 const scheduleRoutes = require("../modules/schedule/scheduleRoutes");
 const bookingRoutes = require("../modules/booking/bookingRoutes");
@@ -9,7 +11,7 @@ const authRoutes = require("../modules/auth/authRoutes");
 
 Router.use("/movie", movieRoutes);
 Router.use("/schedule", scheduleRoutes);
-Router.use("/booking", bookingRoutes);
+Router.use("/booking", middlewareAuth.authentication, bookingRoutes);
 Router.use("/auth", authRoutes);
 
 module.exports = Router;

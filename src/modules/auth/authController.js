@@ -1,20 +1,33 @@
 const helperWrapper = require("../../helpers/wrapper");
 const authModel = require("./authModel");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 module.exports = {
   register: async (req, res) => {
     try {
-      const { firstName, email, password } = req.body;
+      const { firstName, email, lastName, noTelp, password, confirmPassword } =
+        req.body;
 
-      //   1. encrypt password
-      //   2. kondisi pengecekan apakah email sudah terdaftar atau belum
-      //   3. Password terdiri dari beberapa ketentuan
+      const checkUser = await authModel.getUserByemail(email);
 
+      if (checkUser.length >= 1) {
+        return helperWrapper.res(res, 404, "Email already registered", null);
+      }
+
+      // Check confirm password
+      if (password !== confirmPassword) {
+        return helperWrapper.res(res, 404, "Your password is not match", null);
+      }
+
+      const salt = bcrypt.genSaltSync(10);
       const setData = {
         firstName,
+        lastName,
+        noTelp,
         email,
-        password,
+        password: await bcrypt.hashSync(password, salt),
+        image: "",
       };
 
       const result = await authModel.register(setData);
@@ -37,8 +50,9 @@ module.exports = {
       }
 
       // Check password
-      if (password !== checkUser[0].password) {
-        return helperWrapper.res(res, 400, "Wrong password", null);
+      const isValid = await bcrypt.compare(password, checkUser[0].password);
+      if (!isValid) {
+        return helperWrapper.res(res, 400, "Wrong Password");
       }
 
       // JWT Process
