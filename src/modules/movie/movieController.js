@@ -1,6 +1,7 @@
 const helperWrapper = require("../../helpers/wrapper");
 const movieModel = require("./movieModel");
 const cloudinary = require("../../config/cloudinary");
+const { v4: uuidv4 } = require("uuid");
 
 module.exports = {
   getAllMovie: async (req, res) => {
@@ -79,6 +80,7 @@ module.exports = {
       const newFilename = `${req.file.filename}.${fileExtension}`;
 
       const setData = {
+        id: uuidv4(),
         name,
         category,
         image: newFilename,

@@ -3,6 +3,7 @@ const authModel = require("./authModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { sendMail } = require("../../helpers/mail");
+const { v4: uuidv4 } = require("uuid");
 
 module.exports = {
   register: async (req, res) => {
@@ -23,6 +24,7 @@ module.exports = {
 
       const salt = bcrypt.genSaltSync(10);
       const setData = {
+        id: uuidv4(),
         firstName,
         lastName,
         noTelp,

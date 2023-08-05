@@ -1,5 +1,6 @@
 const helperWrapper = require("../../helpers/wrapper");
 const scheduleModel = require("./scheduleModel");
+const { v4: uuidv4 } = require("uuid");
 
 module.exports = {
   getAllSchedule: async (req, res) => {
@@ -66,6 +67,7 @@ module.exports = {
         req.body;
 
       const setData = {
+        id: uuidv4(),
         movieId,
         premiere,
         price,

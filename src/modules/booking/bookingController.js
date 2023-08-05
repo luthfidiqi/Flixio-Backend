@@ -1,5 +1,6 @@
 const helperWrapper = require("../../helpers/wrapper");
 const bookingModel = require("./bookingModel");
+const { v4: uuidv4 } = require("uuid");
 
 module.exports = {
   createBooking: async (req, res) => {
@@ -14,6 +15,7 @@ module.exports = {
       } = req.body;
 
       const setData = {
+        id: uuidv4(),
         userId: req.decodeToken.id,
         scheduleId,
         dateBooking,
@@ -29,6 +31,7 @@ module.exports = {
 
       seat.map(async (seatNumber) => {
         setDataSeat = {
+          id: uuidv4(),
           bookingId: result.id,
           seat: seatNumber,
         };
