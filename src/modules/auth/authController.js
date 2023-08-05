@@ -139,4 +139,15 @@ module.exports = {
       return helperWrapper.res(res, 400, "Bad Request", null);
     }
   },
+  logout: async (req, res) => {
+    try {
+      const { refreshToken } = req.body;
+      localStorage.removeItem(req.headers.authorization);
+      localStorage.removeItem(refreshToken);
+      return helperWrapper.res(res, 200, "Success logout", null);
+    } catch (error) {
+      console.log(error);
+      return helperWrapper.res(res, 400, "Bad Request", null);
+    }
+  },
 };
