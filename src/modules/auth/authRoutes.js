@@ -4,6 +4,7 @@ const Router = express.Router();
 
 Router.post("/register", authController.register);
 Router.post("/login", authController.login);
+Router.post("/refresh", authController.refreshToken);
 Router.post("/activateAccount/:id", authController.updateStatusAccount);
 
 module.exports = Router;

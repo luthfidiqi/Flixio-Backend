@@ -72,11 +72,39 @@ module.exports = {
       delete payload.createdAt;
       delete payload.updatedAt;
 
-      const token = jwt.sign({ ...payload }, "SECRET", { expiresIn: "24h" });
+      const token = jwt.sign({ ...payload }, "SECRET", { expiresIn: "1h" });
+      const refreshToken = jwt.sign({ ...payload }, "NEWSECRET", {
+        expiresIn: "24h",
+      });
 
       return helperWrapper.res(res, 200, "Success Login", {
         id: payload.id,
         token,
+        refreshToken,
+      });
+    } catch (error) {
+      console.log(error);
+      return helperWrapper.res(res, 400, "Bad Request", null);
+    }
+  },
+  refreshToken: async (req, res) => {
+    try {
+      const { refreshToken } = req.body;
+
+      jwt.verify(refreshToken, "NEWSECRET", async (error, result) => {
+        delete result.iat;
+        delete result.exp;
+        console.log(result);
+        const token = jwt.sign(result, "SECRET", { expiresIn: "1h" });
+        const newRefreshToken = jwt.sign(result, "NEWSECRET", {
+          expiresIn: "24h",
+        });
+
+        return helperWrapper.res(res, 200, "Success refresh token", {
+          id: result.id,
+          token,
+          refreshToken: newRefreshToken,
+        });
       });
     } catch (error) {
       console.log(error);
