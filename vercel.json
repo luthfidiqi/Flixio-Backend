@@ -1,9 +1,8 @@
 {
-    "version": 1,
-    "name": "socketing",
+    "version": 2,
     "builds": [
         {
-        "src": "Index. js",
+        "src": "./src/index.js",
         "use": "@vercel/node"
         }
     ],
